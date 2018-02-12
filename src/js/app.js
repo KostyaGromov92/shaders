@@ -2,11 +2,7 @@ import * as THREE from 'three';
 var OrbitControls = require('three-orbit-controls')(THREE);
 
 
-
-
-
-
-var camera, controls, scene, renderer, mesh;
+var camera, controls, scene, renderer, mesh, geometry, dots;
 
 function init() {
   scene = new THREE.Scene();
@@ -33,20 +29,43 @@ function init() {
 
   controls = new OrbitControls(camera, renderer.domElement);
 
+  const loader = new THREE.TextureLoader();
+  loader.load('img/flower.jpg', function(texture) {
+    
+    let material = new THREE.PointsMaterial({
+      size: 20,
+      map: texture,
+      alphaTest: 0.5
+    });
+
+    geometry = new THREE.Geometry();
+
+    for (let i = 0; i < 50; i++) {
+      geometry.vertices.push(new THREE.Vector3(Math.random() * 100, Math.random() * 100, Math.random() * 100));
+      
+    }
+
+    let pointCloud = new THREE.Points(geometry, material);
+
+    scene.add(pointCloud);
+
+  });
 
   // do something
 
-  animate();
 }
 
 
 
-let time = 0;
-function animate() {
-  time++;
+function render() {
   renderer.render(scene, camera);
+}
+
+function animate() {
+  render();
   requestAnimationFrame(animate);
 }
 
 
 init();
+animate();
