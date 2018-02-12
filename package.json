@@ -66,6 +66,7 @@
     "lodash": "^4.3.0"
   },
   "dependencies": {
+    "delaunator": "^1.0.5",
     "three": "^0.89.0",
     "three-orbit-controls": "^82.1.0"
   }
